@@ -4,8 +4,14 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueDisqus from 'vue-disqus'
+import axios from 'axios'
 
 Vue.config.productionTip = false
+
+const token = localStorage.getItem('token')
+if (token) {
+  axios.defaults.headers.common['Authorization'] = "bearer " + token
+}
 /* Load Components */
 /* eslint-disable no-new */
 new Vue({
