@@ -11,7 +11,25 @@ import ResetPassword from '@/pages/public/ResetPassword'
 import PrivacyPolicy from '@/pages/public/PrivacyPolicy'
 import ToS from '@/pages/public/ToS'
 import MyAccount from '@/pages/private/MyAccount'
+import store from '../store/store.js'
 
+const ifNotAuthenticated = async (to, from, next) => {
+  let authenticated = await store.isAuthenticated();
+  if (!authenticated) {
+    next()
+    return
+  }
+  next('/')
+}
+
+const ifAuthenticated = async (to, from, next) => {
+  let authenticated = await store.isAuthenticated();
+  if (authenticated) {
+    next()
+    return
+  }
+  next('/sign-in')
+}
 
 Vue.use(Router)
 
@@ -45,12 +63,14 @@ export default new Router({
     {
       path: '/register',
       name: 'Register',
-      component: Register
+      component: Register,
+      beforeEnter: ifNotAuthenticated
     },
     {
       path: '/sign-in',
       name: 'SignIn',
-      component: SignIn
+      component: SignIn,
+      beforeEnter: ifNotAuthenticated
     },
     {
       path: '/reset-password',
@@ -61,9 +81,7 @@ export default new Router({
       path: '/app/my-account',
       name: 'MyAccount',
       component: MyAccount,
-      meta: {
-        requiresAuth: true
-      }
+      beforeEnter: ifAuthenticated,
     },
     {
       path: '/privacy-policy',

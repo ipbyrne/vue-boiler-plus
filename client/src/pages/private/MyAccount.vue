@@ -110,9 +110,9 @@ export default {
   name: 'MyAccount',
   data () {
     return {
-      firstname: this.$parent.firstname,
-      lastname: this.$parent.lastname,
-      email: this.$parent.email,
+      firstname: this.$parent.store.state.firstname,
+      lastname: this.$parent.store.state.lastname,
+      email: this.$parent.store.state.email,
       password: "",
       new_password: "",
     }
