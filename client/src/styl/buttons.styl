@@ -1,0 +1,79 @@
+@import './variables.styl'
+
+.btn {
+    display: inline-block;
+    padding: 1rem 1.875rem;
+    border-radius: 5px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 700;
+    font-size: 1em;
+    line-height: 1rem;
+    -webkit-font-smoothing: antialiased;
+    transition: 150ms ease;
+    transition-property: background-color, border-color, box-shadow, color;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    box-shadow: 0 5px 15px 0 rgba(0,0,0,0.15);
+    background-color: colorPrimary
+    color: #ffffff !important;
+    border-width: 0;
+    border-style: solid;
+    border-color: transparent;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: colorPrimaryDark;
+    color: #ffffff;
+}
+
+.btn-secondary {
+    background-color: colorSecondary;
+}
+
+.btn-secondary:hover {
+    background-color: colorSecondaryDark;    
+}
+
+.btn-success {
+    background-color: colorSuccess;
+}
+
+.btn-success:hover {
+    background-color: colorSuccessDark;    
+}
+
+.btn-warning {
+    background-color: colorWarning;
+}
+
+.btn-warning:hover {
+    background-color: colorWarningDark;    
+}
+
+.btn-info {
+    background-color: colorInfo;
+}
+
+.btn-info:hover {
+    background-color: colorInfoDark;    
+}
+
+.btn-sm {
+    padding: 0.75rem 1rem;
+}
+
+.btn-large {
+    padding: 1.5rem 2rem;
+}
+
+.btn-block {
+    width: 100%;    
+}

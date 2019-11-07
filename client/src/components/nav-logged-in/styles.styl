@@ -1,0 +1,114 @@
+.header-container {
+    height: 5rem;
+}
+
+#nav {
+    height: 5rem;
+    padding: 1rem 3rem;
+    background: #f2e0cf;
+}
+
+.nav-brand {
+    float: left;
+    line-height: 1rem;
+    padding: 1rem 0;
+    text-decoration: none;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #212b35;
+}
+
+.nav-brand:hover {
+    
+}
+
+.nav-items-container {
+    float: right;
+}
+
+.nav-items-container > ul > li {
+    display: inline-block;
+    margin: 0rem 1.5rem;
+    
+}
+
+.nav-items-container > ul > li > a.nav-link {
+    text-decoration: none;
+    color: #212b35;
+    height: 48px;
+    font-size: 1.0625em;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    font-family: "Segoe UI", sans-serif
+}
+
+.nav-items-container > ul > li > a.nav-link:hover {
+    
+}
+
+.nav-mobile-toggler {
+    display: none;
+}
+
+@media screen and (max-width: 767px) {
+    #nav {
+        padding: 1rem 1.5rem;
+    }
+
+    .nav-brand {
+        font-size: 2rem;
+        padding: 1rem 0;    
+    }
+
+    .nav-items-container > ul {
+        display: none;    
+    }
+
+    .nav-mobile-toggler {
+        display: inline-block;
+        padding: 0.5rem 0;
+        font-size: 2rem;
+    }
+
+    .nav-mobile-toggler.responsive  {
+        position: absolute;
+        top: 0.5rem;
+        right: 1.5rem;
+        font-size: 2rem;
+        padding: 1rem 0;
+        z-index: 99;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .nav-items-container > ul.responsive {
+        display: block;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0px;
+        left: 0px;
+        background: #000639;
+        z-index: 98;
+        padding: 3rem; 
+    }
+
+    .nav-items-container > ul.responsive > li {
+        display: block;
+        z-index: 99;
+        line-height: 4rem;
+        text-align: center;
+    }
+    .nav-items-container > ul.responsive > li > a.nav-link {
+        color #fff;
+        font-size: 2rem;
+        text-decoration: underline;
+    }
+
+    .nav-items-container > ul.responsive > li > a.btn {
+        padding: 1.5rem 2rem;
+        font-size: 1.5rem;
+        margin-top: 2rem;
+    }
+}
