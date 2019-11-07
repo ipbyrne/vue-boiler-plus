@@ -22,7 +22,7 @@
     "heroku-ssl-redirect": "0.0.4",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.2.7",
-    "mongoose": "^5.6.4",
+    "mongoose": "^5.7.5",
     "nodemailer": "^6.2.1",
     "nodemon": "^1.19.1",
     "vue": "^2.5.2",
