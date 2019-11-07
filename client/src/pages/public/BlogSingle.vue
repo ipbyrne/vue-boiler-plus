@@ -47,7 +47,7 @@
 
         methods: {
             fetchData: function () {
-                axios.get('https://public-api.wordpress.com/rest/v1.1/sites/tracingdeltablog.home.blog/posts/slug:' + this.$route.params.slug)
+                axios.get(client_config.wordpress_url + '/posts/slug:' + this.$route.params.slug)
                 .then((resp) => {
                     this.post = resp.data
                     this.post.ID = this.post.ID.toString();

@@ -56,7 +56,7 @@
         },
         methods: {
             fetchData() {
-                axios.get('https://public-api.wordpress.com/rest/v1.1/sites/tracingdeltablog.home.blog/posts/?number=' + this.posts_per_page + '&pretty=true&page=' + this.page_index)
+                axios.get(client_config.wordpress_url + '/posts/?number=' + this.posts_per_page + '&pretty=true&page=' + this.page_index)
                 .then((resp) => {
                     resp.data.posts.forEach(post => {
                         let slug = post.URL.split("/")[post.URL.split("/").length - 2]
