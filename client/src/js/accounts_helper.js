@@ -50,6 +50,20 @@ let account_helper = {
         .catch(function (error) {
             console.log('error');
         }); 
-    }
+    },
+    UpdateAccount: async function(firstname, lastname, email, password, confirm_password) {
+        return await axios.post(client_config.base_url + '/api/user/update', {
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            password: password == "" && confirm_password == "" ? "" : password
+          })
+          .then(function (response) {
+            return response
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    },
 }
 export default account_helper

@@ -129,31 +129,18 @@ export default {
       let password = document.getElementById('password').value;
       let confirm_password = document.getElementById('password').value;
 
-      let updated = await axios.post(client_config.base_url + '/api/user/update', {
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        password: password == "" && confirm_password == "" ? "" : password
-      },
-      {
-        headers: {'Authorization': "bearer " + localStorage.getItem('token')}
-      })
-      .then(function (response) {
-        document.getElementById("account-info-errors").innerHTML = response.data.message
-        if (response.data.success == false) {
-          return false
-        } else {
-          if (document.getElementsByClassName('change-password-inputs')[0].classList.contains("hide") == false) {
-            document.getElementsByClassName('change-password-inputs')[0].classList.toggle('hide')
-            document.getElementsByClassName('change-password-btn')[0].classList.toggle('hide')
-          }
-          return true
+      let response = await account_helper.UpdateAccount(firstname, lastname, email, password, confirm_password);
+
+      document.getElementById("account-info-errors").innerHTML = response.data.message
+      if (response.data.success == false) {
+        return false
+      } else {
+        if (document.getElementsByClassName('change-password-inputs')[0].classList.contains("hide") == false) {
+          document.getElementsByClassName('change-password-inputs')[0].classList.toggle('hide')
+          document.getElementsByClassName('change-password-btn')[0].classList.toggle('hide')
         }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-      
+        return true
+      }
     },
     showPasswordInputs: function () {
       document.getElementsByClassName('change-password-inputs')[0].classList.toggle('hide')
