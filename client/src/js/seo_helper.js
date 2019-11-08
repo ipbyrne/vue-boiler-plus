@@ -1,5 +1,5 @@
 let seo_helper = {
-    setSEOData = function (title, description) {
+    setSEOData: function (title, description) {
         try {
             let url = window.location.href;
             let image = "";
