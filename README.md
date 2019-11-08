@@ -3,7 +3,7 @@ This a boiler-plate Vue + Node.JS application that you can use to quickly start 
 
 ## Features
 - SEO Ready
-- User Accounts Built In (Sign In/Register/Update Account Info).
+- User Accounts Built In (Sign In/Register/Update Account Info/Reset Password via Tokens).
 - Secure - Authenticated with JSON Web Tokens.
 - Email Configurations Built In.
 - Built In Functionality to use WordPress.com as a headless CMS for your blog (Simply add your wordpress API url to the client config file).
