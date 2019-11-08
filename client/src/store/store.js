@@ -25,7 +25,7 @@ let store = {
             this.state.email = res.data.user.email
         } else {
             this.state.authed = res.data.success
-            this.state.id = "TESTTTTT"
+            this.state.id = ""
             this.state.firstname = ""
             this.state.lastname = ""
             this.state.email = ""
