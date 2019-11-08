@@ -142,7 +142,7 @@ export default {
 
       if (inputs_are_valid) {
         // Send Data to Server
-        let responst  = await account_helper.CreateResetToken(this.email);
+        let response  = await account_helper.CreateResetToken(this.email);
         if (response.data.success == false) {
           document.getElementById("reset-password-errors").innerHTML = response.data.message
           return false
