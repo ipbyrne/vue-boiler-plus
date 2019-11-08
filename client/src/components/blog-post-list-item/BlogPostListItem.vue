@@ -1,6 +1,6 @@
 <template>
     <div class="col-12 col-sm-6">
-        <div class="blog-post">
+        <div class="blog-post card">
             <h3>{{post.title}}</h3>
             <div class="post-excerpt" v-html="post.excerpt">
                 {{post.excerpt}}
