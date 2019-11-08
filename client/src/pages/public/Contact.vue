@@ -39,6 +39,7 @@ import axios from 'axios'
 import client_config from '../../js/client_config.js'
 import seo_helper from '../../js/seo_helper.js'
 import validation_helper from '../../js/validation_helper.js'
+import utility_helper from '../../js/utility_helper';
 
 function validateInputs () {
   document.getElementById("email_validator").innerHTML = "";
@@ -96,26 +97,15 @@ export default {
       this.subject = document.getElementById("subject").value;
       this.message = document.getElementById("message").value;
 
-      let message_sent = await axios.post(client_config.base_url + '/api/utilities/send-email', {
-          email: this.email,
-          subject: this.subject,
-          message: this.message
-        })
-        .then(function (response) {
-          document.getElementById("contact-form-errors").innerHTML = response.data.message
-          if (response.data.success == false) {
-            return false
-          } else {
-            // Clear inputs
-            document.getElementById("email").value = "";
-            document.getElementById("subject").value = "";
-            document.getElementById("message").value = "";
-            return true
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      let response = await utility_helper.SendContactEmail(this.email,  this.subject, this.message);
+
+      document.getElementById("contact-form-errors").innerHTML = response.data.message
+      if (response.data.success) {
+        // Clear inputs
+        document.getElementById("email").value = "";
+        document.getElementById("subject").value = "";
+        document.getElementById("message").value = "";
+      }
     }
   }
 }
