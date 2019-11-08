@@ -1,6 +1,8 @@
 <template>
     <section class="wrapper-bg-tan">
-        <p>Privacy Policy</p>
+        <div class="container">
+            <p>Privacy Policy</p>
+        </div>
     </section>
 </template>
 
@@ -8,10 +10,10 @@
 import seo_helper from '../../js/seo_helper.js'
 
 export default {
-  name: 'PrivacyPolicy',
-  beforeCreate: function () {
-    seo_helper.setSEOData("Privacy Policy- Vue Boiler Plus", "A Boiler plate app.");
-  },
+    name: 'PrivacyPolicy',
+    beforeCreate: function () {
+        seo_helper.setSEOData("Privacy Policy- Vue Boiler Plus", "A Boiler plate app.");
+    },
 }
 </script>
 
