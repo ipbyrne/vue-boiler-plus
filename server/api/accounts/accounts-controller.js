@@ -142,7 +142,7 @@ let accounts_controller = {
               res.json({success: false, message: 'Valid email is required.'})
               return false;
             } else {
-              if (await validateEmailIsNotInUse(email) == false) {
+              if (await this.validateEmailIsNotInUse(email) == false) {
                 res.json({success: false, message: 'Email is in use.'})
                 return false;
               }
@@ -152,7 +152,7 @@ let accounts_controller = {
     },
     validateEmailIsNotInUse: async function (email) {
         let is_valid = await User.findOne({
-          email: req.body.email
+          email: email
         }, function (err, user) {
           if (err) return false
           return true
@@ -205,7 +205,7 @@ let accounts_controller = {
         let template_path = '../../emails/welcome.html';
       
         // send mail with defined transport object
-        await readHTMLFile(template_path, async function(err, html) {
+        await this.readHTMLFile(template_path, async function(err, html) {
            let info = await transporter.sendMail({
             from: server_config.default_server_email, 
             to: email,

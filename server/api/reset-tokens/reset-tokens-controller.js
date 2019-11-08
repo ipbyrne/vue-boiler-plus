@@ -27,10 +27,10 @@ let reset_token_controller = {
         if (user) {
             let reset_token = new ResetToken
             reset_token.email = email
-            reset_token.reset_token = await createResetPasswordToken(16)
+            reset_token.reset_token = await this.createResetPasswordToken(16)
             await reset_token.save()
             let token = reset_token.reset_token
-            sendResetEmail(req, token)
+            this.sendResetEmail(req, token)
             return true;
         } else {
             return false
@@ -52,7 +52,7 @@ let reset_token_controller = {
         template_path = template_path.replace("{{TOKEN}}", token);
         
         // send mail with defined transport object
-        await readHTMLFile(template_path, async function(err, html) {
+        await this.readHTMLFile(template_path, async function(err, html) {
             let info = await transporter.sendMail({
             from: server_config.default_server_email, 
             to: req.body.email,

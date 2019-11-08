@@ -1,6 +1,6 @@
 <template>
     <section class="wrapper-bg-tan">
-        <div class="container post-content">
+        <div class="container post-content card">
             <div class="post-header">
                 <h1>{{post.title}}</h1>
                 <span><strong>Posted On {{post.date}}</strong></span>
@@ -65,6 +65,9 @@
 </script>
 
 <style>
+    .card {
+        max-width: 768px;
+    }
     .post-content {
         max-width: 768px;
         display: block;
