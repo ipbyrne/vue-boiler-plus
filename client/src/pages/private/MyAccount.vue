@@ -45,7 +45,6 @@
       </div>
     </div>
   </section>
-  
 </template>
 
 <script>
@@ -130,210 +129,23 @@ export default {
       let password = document.getElementById('password').value;
       let confirm_password = document.getElementById('password').value;
 
-      let updated = await axios.post(client_config.base_url + '/api/user/update', {
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        password: password == "" && confirm_password == "" ? "" : password
-      },
-      {
-        headers: {'Authorization': "bearer " + localStorage.getItem('token')}
-      })
-      .then(function (response) {
-        document.getElementById("account-info-errors").innerHTML = response.data.message
-        if (response.data.success == false) {
-          return false
-        } else {
-          if (document.getElementsByClassName('change-password-inputs')[0].classList.contains("hide") == false) {
-            document.getElementsByClassName('change-password-inputs')[0].classList.toggle('hide')
-            document.getElementsByClassName('change-password-btn')[0].classList.toggle('hide')
-          }
-          return true
+      let response = await account_helper.UpdateAccount(firstname, lastname, email, password, confirm_password);
+
+      document.getElementById("account-info-errors").innerHTML = response.data.message
+      if (response.data.success == false) {
+        return false
+      } else {
+        if (document.getElementsByClassName('change-password-inputs')[0].classList.contains("hide") == false) {
+          document.getElementsByClassName('change-password-inputs')[0].classList.toggle('hide')
+          document.getElementsByClassName('change-password-btn')[0].classList.toggle('hide')
         }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-      
+        return true
+      }
     },
     showPasswordInputs: function () {
       document.getElementsByClassName('change-password-inputs')[0].classList.toggle('hide')
       document.getElementsByClassName('change-password-btn')[0].classList.toggle('hide')
     },
-    showPaymentMethodInputs: function () {
-      if (this.update_payment_method_mounted == false) {
-        // Create a Stripe client.
-        var stripe = Stripe(client_config.stripe_public_key)
-        this.stripe = stripe
-      
-        // Create an instance of Elements.
-        var elements = stripe.elements();
-        var style = {
-          base: {
-            color: '#32325d',
-            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-            fontSmoothing: 'antialiased',
-            fontSize: '16px',
-            '::placeholder': {
-              color: '#aab7c4'
-            }
-          },
-          invalid: {
-            color: '#fa755a',
-            iconColor: '#fa755a'
-          }
-        };
-
-        // Create an instance of the card Element.
-        var card = elements.create('card', {style: style});
-        this.card = card;
-
-        // Add an instance of the card Element into the `card-element` <div>.
-        card.mount('#card-element');
-        this.update_payment_method_mounted = true
-      }
-      
-      // Change Views
-      document.getElementsByClassName('update-payment-method-inputs')[0].classList.toggle('hide')
-      document.getElementsByClassName('update-payment-method-btn')[0].classList.toggle('hide')
-    },
-    changePaymentMethod: async function () {
-      const stripe = this.stripe
-      // Create Stipe Token
-      this.stripe_token = await stripe.createToken(this.card).then(function(result) {
-        if (result.error) {
-          // Inform the customer that there was an error.
-          var errorElement = document.getElementById('card-errors');
-          errorElement.textContent = result.error.message;
-        } else {
-          // Send the token to your server.
-          return result.token
-        }
-      });
-
-      // Send Data to Server
-      let subscription_upgraded = await axios.post(client_config.base_url + '/api/user/update-payment-method', {
-        stripe_token: this.stripe_token,
-      },
-      {
-        headers: {'Authorization': "bearer " + localStorage.getItem('token')}
-      })
-      .then(function (response) {
-        document.getElementById("subscription-info-errors").innerHTML = response.data.message
-        if (response.data.success == false) {
-          return false
-        } else {
-          return true
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-      
-      if (subscription_upgraded == true) {
-        // Change Views
-        document.getElementsByClassName('update-payment-method-inputs')[0].classList.toggle('hide')
-        document.getElementsByClassName('update-payment-method-btn')[0].classList.toggle('hide')
-      }
-    },
-    showCancelSubInputs: function () {
-      // Change Views
-      document.getElementsByClassName('modify-subscription-inputs')[0].classList.toggle('hide')
-      document.getElementsByClassName('modify-subscription-btn')[0].classList.toggle('hide')
-    },
-    cancelSubscription: function () {
-
-    },
-    showActivateSubInputs: function () {
-
-    },
-    activateSubscription: function () {
-
-    },
-    showUpgradeSubInputs: function () {
-      if (this.update_payment_method_mounted == false) {
-        // Create a Stripe client.
-        var stripe = Stripe(client_config.stripe_public_key)
-        this.stripe = stripe
-      
-        // Create an instance of Elements.
-        var elements = stripe.elements();
-        var style = {
-          base: {
-            color: '#32325d',
-            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-            fontSmoothing: 'antialiased',
-            fontSize: '16px',
-            '::placeholder': {
-              color: '#aab7c4'
-            }
-          },
-          invalid: {
-            color: '#fa755a',
-            iconColor: '#fa755a'
-          }
-        };
-
-        // Create an instance of the card Element.
-        var card = elements.create('card', {style: style});
-        this.card = card;
-
-        // Add an instance of the card Element into the `card-element` <div>.
-        card.mount('#card-element-two');
-        this.update_payment_method_mounted = true
-      }
-      
-      // Change Views
-      document.getElementsByClassName('upgrade-subscription-inputs')[0].classList.toggle('hide')
-      document.getElementsByClassName('upgrade-subscription-btn')[0].classList.toggle('hide')
-    },
-    upgradeSubscription: async function () {
-      var radios = document.getElementsByName('plan');
-      for (var i = 0, length = radios.length; i < length; i++) {
-        if (radios[i].checked){
-          this.subscription_plan = radios[i].value;
-          break;
-        }
-      }
-      const stripe = this.stripe
-      // Create Stipe Token
-      this.stripe_token = await stripe.createToken(this.card).then(function(result) {
-        if (result.error) {
-          // Inform the customer that there was an error.
-          var errorElement = document.getElementById('card-errors');
-          errorElement.textContent = result.error.message;
-        } else {
-          // Send the token to your server.
-          return result.token
-        }
-      });
-
-      // Send Data to Server
-      let subscription_upgraded = await axios.post(client_config.base_url + '/api/user/upgrade', {
-        stripe_token: this.stripe_token,
-        subscription_plan: this.subscription_plan
-      },
-      {
-        headers: {'Authorization': "bearer " + localStorage.getItem('token')}
-      })
-      .then(function (response) {
-        document.getElementById("subscription-info-errors").innerHTML = response.data.message
-        if (response.data.success == false) {
-          return false
-        } else {
-          return true
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-      
-      if (subscription_upgraded == true) {
-        // Change Views
-        document.getElementsByClassName('upgrade-subscription-inputs')[0].classList.toggle('hide')
-        document.getElementsByClassName('upgrade-subscription-btn')[0].classList.toggle('hide')
-      }
-    }
   },
 }
 </script>

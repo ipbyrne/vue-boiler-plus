@@ -37,29 +37,9 @@ export default {
     beforeCreate: function () {
         seo_helper.setSEOData("Vue Boiler Plus", "A Boiler plate app.");
     },
-    methods: {
-        changeAuth: function () {
-            var token = localStorage.getItem('token')
-
-            if (token === 'valid') {
-                localStorage.setItem('token', 'invalid')
-                this.$parent.authed = false
-            } else {
-                localStorage.setItem('token', 'valid')
-                this.$parent.authed = true
-            }
-        }
-    }
 }
 </script>
 
 <style scoped>
-    .home-formula {
-        display:table-cell; 
-        vertical-align:middle
-    }
-    .results-image {
-        text-align: center;
-        width: 100%;
-    }
+
 </style>

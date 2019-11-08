@@ -31,8 +31,9 @@ mongoose.connect(server_config.mongo_connection_string, {
 });
 
 // Import API Routes
-require('./routes/accounts.js')(app);
-require('./routes/utilities.js')(app);
+require('./api/accounts/accounts-routes.js')(app);
+require('./api/reset-tokens/reset-tokens-routes.js')(app);
+require('./api/utilities/utilities-routes.js')(app);
 
 // Import Vue
 app.use(sslRedirect());

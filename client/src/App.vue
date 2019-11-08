@@ -38,7 +38,7 @@ export default {
     }
   },
   beforeCreate: async function() {
-    store.isAuthenticated();
+    await store.isAuthenticated();
   }
 }
 

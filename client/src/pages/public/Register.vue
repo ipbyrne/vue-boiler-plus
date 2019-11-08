@@ -43,6 +43,7 @@ import axios from 'axios'
 import client_config from '../../js/client_config.js'
 import seo_helper from '../../js/seo_helper.js'
 import validation_helper from '../../js/validation_helper.js'
+import account_helper from '../../js/accounts_helper';
 
 function validateAccountInfo() {
   document.getElementById("firstname_validator").innerHTML = ""
@@ -109,27 +110,16 @@ export default {
 
             if (inputs_are_valid) {
                 // Send Data to Server
-                let token = await axios.post(client_config.base_url + '/api/user/register', {
-                    firstname: this.firstname,
-                    lastname: this.lastname,
-                    email: this.email,
-                    password: this.password
-                })
-                .then(function (response) {
-                    if (response.data.success == false) {
-                        document.getElementById("register-errors").innerHTML = response.data.message;
-                        return false;
-                    } else {
-                        return response.data.token
+                let response = account_helper.RegisterAccount(this.firstname, this.lastname, this.email. this.password);
+                if (response.data.success == false) {
+                    document.getElementById("register-errors").innerHTML = response.data.message;
+                    return false;
+                } else {
+                    let token = response.data.token;
+                    if (token != false) {
+                        localStorage.setItem('token', token)
+                        window.location.href = "/app/my-account";
                     }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-                if (token != false) {
-                    localStorage.setItem('token', token)
-                    this.$parent.authed = true
-                    window.location.href = "/app/my-account";
                 }
             }
         }

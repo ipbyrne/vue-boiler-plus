@@ -63,6 +63,7 @@ import axios from 'axios'
 import client_config from '../../js/client_config.js'
 import seo_helper from '../../js/seo_helper.js'
 import validation_helper from '../../js/validation_helper.js'
+import account_helper from '../../js/accounts_helper';
 
 
 function validateInputs() {
@@ -141,20 +142,11 @@ export default {
 
       if (inputs_are_valid) {
         // Send Data to Server
-        await axios.post(client_config.base_url + '/api/user/create-reset-password-token', {
-          email: this.email
-        })
-        .then(function (response) {
-          if (response.data.success == false) {
-            document.getElementById("reset-password-errors").innerHTML = response.data.message
-            return false
-          } else {
-            return true
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        let response  = await account_helper.CreateResetToken(this.email);
+        if (response.data.success == false) {
+          document.getElementById("reset-password-errors").innerHTML = response.data.message
+          return false
+        }
 
         // Change View
         document.getElementsByClassName('reset-password-container')[0].classList.toggle("hide")
@@ -166,24 +158,14 @@ export default {
       if (password_is_valid == false) return
       this.password = document.getElementById("password").value;
 
-      await axios.post(client_config.base_url + '/api/user/reset-password', {
-        token: this.reset_token,
-        password: this.password
-      })
-      .then(function (response) {
-        console.log(response.data)
-        if (response.data.success == false) {
+      let response = await account_helper.ResetPassword(this.reset_token, this.password);
+
+      if (response.data.success == false) {
           document.getElementById("reset-password-confirmed-errors").innerHTML = response.data.message
-          return false
-        } else {
+      } else {
           document.getElementsByClassName('set-password-container')[0].classList.toggle("hide")
           document.getElementsByClassName('reset-password-completed-container')[0].classList.toggle("hide")
-          return true
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      }); 
+      }
     }
   }
 }
