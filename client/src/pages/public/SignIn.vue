@@ -35,6 +35,7 @@ import axios from 'axios'
 import client_config from '../../js/client_config.js'
 import seo_helper from '../../js/seo_helper.js'
 import validation_helper from '../../js/validation_helper.js'
+import account_helper from '../../js/accounts_helper';
 
 function validateInputs() {
   document.getElementById("email_validator").innerHTML = ""
@@ -83,23 +84,16 @@ export default {
 
       if (inputs_are_valid) {
         // Send Data to Server
-        this.$parent.authed = await axios.post(client_config.base_url + '/api/user/authenticate', {
-          email: this.email,
-          password: this.password
-        })
-        .then(function (response) {
-          if (response.data.success == false) {
+        let response = await account_helper.LogIn(this.email, this.password);
+
+        if (response.data.success == false) {
             document.getElementById("sign-in-errors").innerHTML = response.data.message
             return false
-          } else {
-            localStorage.setItem('token', response.data.token)
+        } else {
+            localStorage.setItem('token', response.data.token);
             window.location.href = "/app/my-account";
             return true
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        }
       }
     }
   }
