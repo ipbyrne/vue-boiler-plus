@@ -2,7 +2,7 @@ const server_config = require('../../server_config')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 const nodemailer = require("nodemailer");
-const User = require('../accounts/accounts-model');
+const Account = require('../accounts/accounts-model');
 const ResetToken = require('./reset-tokens-model');
 
 let reset_token_controller = {
@@ -18,13 +18,13 @@ let reset_token_controller = {
     createResetToken: async function (req) {
         let email = req.body.email
   
-        let user =  await User.findOne({
+        let account =  await Account.findOne({
         email: email
-        }, function (err, user) {
+        }, function (err, account) {
         if (err) throw err
         })
     
-        if (user) {
+        if (account) {
             let reset_token = new ResetToken
             reset_token.email = email
             reset_token.reset_token = await this.createResetPasswordToken(16)
@@ -43,7 +43,7 @@ let reset_token_controller = {
             port: server_config.smpt_port,
             secure: true, // true for 465, false for other ports
             auth: {
-            user: server_config.smtp_user, // generated ethereal user
+            account: server_config.smtp_user, // generated ethereal account
             pass: server_config.smtp_password// generated ethereal password
             }
         });
@@ -68,7 +68,7 @@ let reset_token_controller = {
     
         let reset_token = await ResetToken.findOne({
         reset_token: token
-        }, function (err, user) {
+        }, function (err, account) {
         return false
         })
     
@@ -76,11 +76,11 @@ let reset_token_controller = {
         current_time = new Date()
         difference = ((current_time.getTime() - reset_token.expiration.getTime()) / 1000);
         if (difference < (60 * 60 * 12 * 1000)) { // 12 Hour Expiry
-            // Update User
+            // Update Account
             var salt = bcrypt.genSaltSync(saltRounds);
             var hash = bcrypt.hashSync(password, salt);
     
-            let update = await User.updateOne({email: reset_token.email}, {
+            let update = await Account.updateOne({email: reset_token.email}, {
             password: hash
             }, function(err) {
             if (err) {

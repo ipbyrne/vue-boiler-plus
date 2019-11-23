@@ -2,7 +2,7 @@
 const reset_token_controller = require('./reset-tokens-controller')
 
 module.exports = function (app) {
-    app.post('/api/user/create-reset-password-token', async (req, res) => {
+    app.post('/api/account/create-reset-password-token', async (req, res) => {
         try {
             let response = await reset_token_controller.createResetToken(req)
             if(response) {
@@ -16,7 +16,7 @@ module.exports = function (app) {
         }
     })
   
-    app.post('/api/user/reset-password', async (req, res) => {
+    app.post('/api/account/reset-password', async (req, res) => {
         try {
             let response = await reset_token_controller.validateResetToken(req)
             if(response) {
