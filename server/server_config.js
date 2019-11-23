@@ -2,7 +2,7 @@
 module.exports = !process.env.PORT ? {
     secret: "super-secret",
     token_expiration: 1440,
-    mongo_connection_string: "mongodb+srv://tracingdelta:n4g4pl0x@tracingdelta-systemsettings-sejpk.mongodb.net/TracingDelta?retryWrites=true&w=majority",
+    mongo_connection_string: "mongodb+srv://<username>:<password>@<mongu_url>.mongodb.net/<dev db name>?retryWrites=true&w=majority",
     smtp_server: "smtp-relay.gmail.com",
     smpt_port: 465,
     smtp_user: "email@gmail.com",
@@ -11,7 +11,7 @@ module.exports = !process.env.PORT ? {
 } : {
     secret: "10986",
     token_expiration: 1440,
-    mongo_connection_string: "mongodb+srv://tracingdelta:n4g4pl0x@tracingdelta-systemsettings-sejpk.mongodb.net/TracingDelta?retryWrites=true&w=majority",
+    mongo_connection_string: "mongodb+srv://<username>:<password>@<mongu_url>.mongodb.net/<prod db name>?retryWrites=true&w=majority",
     smtp_server: "smtp-relay.gmail.com",
     smpt_port: 465,
     smtp_user: "email@gmail.com",
