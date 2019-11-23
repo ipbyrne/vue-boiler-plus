@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 const nodemailer = require("nodemailer");
 const fs = require('fs')
-const User = require('./accounts-model');
+const Account = require('./accounts-model');
 
 let accounts_controller = {
     readHTMLFile: async function (path, callback) {
@@ -19,22 +19,22 @@ let accounts_controller = {
         });
     },
     createToken: async function (req) {
-        let user = await User.findOne({
+        let account = await Account.findOne({
           email: req.body.email
-        }, function (err, user) {
+        }, function (err, account) {
           if (err) throw err
         })
       
-        if (!user) {
-          return { success: false, message: 'Authentication failed. User not found.' }
-        } else if (user) {
+        if (!account) {
+          return { success: false, message: 'Authentication failed. Account not found.' }
+        } else if (account) {
       
-          let password_check = user.is_encrypted ? bcrypt.compareSync(req.body.password, user.password) : req.body.password === user.password;
+          let password_check = account.is_encrypted ? bcrypt.compareSync(req.body.password, account.password) : req.body.password === account.password;
           if (!password_check) {
             return { success: false, message: 'Authentication failed. Wrong password.' }
           } else {
             const payload = {
-              id: user.id
+              id: account.id
             }
             var token = jwt.sign(payload, server_config.secret, { // change with config variable
               expiresIn: server_config.token_expiration
@@ -72,13 +72,13 @@ let accounts_controller = {
               res.json({success: false, message: 'Valid email is required.'})
               return false;
             } else {
-              let user = await User.findOne({
+              let account = await Account.findOne({
                 email: req.body.email
-              }, function (err, user) {
+              }, function (err, account) {
                 if (err) throw err
               })
     
-              if (user) {
+              if (account) {
                 res.json({ success: false, message: 'Email is already in use.' })
                 return false;
               }
@@ -96,14 +96,14 @@ let accounts_controller = {
         let firstname = req.body.firstname
         let lastname = req.body.lastname
         
-        // Create User
-        let user = new User;
-        user.firstname = firstname
-        user.lastname = lastname
-        user.email = email
-        user.password = password
-        user.is_encrypted = false
-        user.created_at = Date.now
+        // Create Account
+        let account = new Account;
+        account.firstname = firstname
+        account.lastname = lastname
+        account.email = email
+        account.password = password
+        account.is_encrypted = false
+        account.created_at = Date.now
       
         // Salt password
         // Insert into DB
@@ -111,10 +111,10 @@ let accounts_controller = {
         var salt = bcrypt.genSaltSync(saltRounds);
         var hash = bcrypt.hashSync(password, salt);
         // Store hash in your password DB.
-        user.password = hash
-        user.is_encrypted = true
+        account.password = hash
+        account.is_encrypted = true
         
-        await user.save()
+        await account.save()
         
         return true
     },
@@ -151,9 +151,9 @@ let accounts_controller = {
         return true;
     },
     validateEmailIsNotInUse: async function (email) {
-        let is_valid = await User.findOne({
+        let is_valid = await Account.findOne({
           email: email
-        }, function (err, user) {
+        }, function (err, account) {
           if (err) return false
           return true
         })
@@ -165,20 +165,20 @@ let accounts_controller = {
         let firstname = req.body.firstname
         let lastname = req.body.lastname
       
-        // Update User
+        // Update Account
         var salt = bcrypt.genSaltSync(saltRounds);
         var hash = bcrypt.hashSync(password, salt);
         if (password != "") {
-          await User.updateOne({_id: id}, {
+          await Account.updateOne({_id: id}, {
             firstname: firstname,
             lastname: lastname,
             email: email, 
             password: hash
-          }, function(err, numberAffected, user) {
+          }, function(err, numberAffected, account) {
             return false
           })
         } else {
-          await User.updateOne({_id: id}, {
+          await Account.updateOne({_id: id}, {
             firstname: firstname,
             lastname: lastname,
             email: email
@@ -189,15 +189,15 @@ let accounts_controller = {
       
         return true
     },
-    sendRegistrationEmail: async function (user) {
-        let email = user.email
+    sendRegistrationEmail: async function (account) {
+        let email = account.email
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
           host: server_config.smtp_server,
           port: server_config.smpt_port,
           secure: true, // true for 465, false for other ports
           auth: {
-            user: server_config.smtp_user, // generated ethereal user
+            account: server_config.smtp_user, // generated ethereal account
             pass: server_config.smtp_password// generated ethereal password
           }
         });

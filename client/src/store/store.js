@@ -10,7 +10,7 @@ let store = {
         email: ""
     },
     CheckAuth: async function () {
-        let res = await axios.post(client_config.base_url + '/api/user/check-auth')
+        let res = await axios.post(client_config.base_url + '/api/account/check-auth')
         .then(function (response) {
             return response;
         })
@@ -19,10 +19,10 @@ let store = {
         });
         if (res.data.success) {
             this.state.authed = res.data.success
-            this.state.id = res.data.user._id
-            this.state.firstname = res.data.user.firstname
-            this.state.lastname = res.data.user.lastname
-            this.state.email = res.data.user.email
+            this.state.id = res.data.account._id
+            this.state.firstname = res.data.account.firstname
+            this.state.lastname = res.data.account.lastname
+            this.state.email = res.data.account.email
         } else {
             this.state.authed = res.data.success
             this.state.id = ""
