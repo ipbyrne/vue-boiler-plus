@@ -21,7 +21,7 @@
     "fs": "0.0.1-security",
     "heroku-ssl-redirect": "0.0.4",
     "js-yaml": "^3.13.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mem": "^4.0.0",
     "mongodb": "^3.2.7",
     "mongoose": "^5.7.5",
